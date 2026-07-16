@@ -1,6 +1,7 @@
 /*
     4chan Vocaroo URL Replacer
-    Copyright (C) 2010-2011 ScottSteiner (nothingfinerthanscottsteiner@gmail.com)
+    I aint copy writing shit, I just yoinked all this and updated it too work with new vocaroo links and embeds :3
+	It probably isnt the best so enjoy :3
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -18,20 +19,20 @@
 
 // ==UserScript==
 // @name				4chan Vocaroo URL Replacer
-// @namespace			http://about.me/ScottSteiner
-// @id					Vocaroo@ScottSteiner
-// @author				Scott Steiner <nothingfinerthanscottsteiner@gmail.com> http://about.me/ScottSteiner
+// @namespace			http://maedaemon.bounceme.net/
+// @id					Vocaroo@666MAEDAEMON
+// @author				MAEDAE
 // @description			Turns plaintext/linked Vocaroo URLs into embedded objects on 4chan, 7chan, 420chan, operatorchan, krautchan, 2chan and imageboard archives
-// @version				2.0.2
-// @copyright			2010-2013, Scott Steiner <nothingfinerthanscottsteiner@gmail.com>
+// @version				3.0
+// @copyright			2026 IDFC
 // @license				GPL version 3 or any later version; http://www.gnu.org/copyleft/gpl.html
-// @icon				https://raw.github.com/ScottSteiner/4chan-Vocaroo-URL-Replacer/master/icon.jpg
-// @homepage			https://github.com/ScottSteiner/4chan-Vocaroo-URL-Replacer
-// @supportURL			https://github.com/ScottSteiner/4chan-Vocaroo-URL-Replacer/issues
+// @icon				https://raw.github.com/666MAEDAEMON/4chan-Vocaroo-URL-replacer-2026-Updated/master/icon.jpg
+// @homepage			https://github.com/666MAEDAEMON/4chan-Vocaroo-URL-replacer-2026-Updated
+// @supportURL			https://github.com/666MAEDAEMON/4chan-Vocaroo-URL-replacer-2026-Updated/issues
 // @updateURL			https://userscripts.org/scripts/source/89348.meta.js
 // @downloadURL			https://userscripts.org/scripts/source/89348.user.js
-// @screenshot			https://raw.github.com/ScottSteiner/4chan-Vocaroo-URL-Replacer/master/screenshot.png
-// @contributionURL		https://steamcommunity.com/id/richardmstallman/wishlist
+// @screenshot			https://raw.github.com/666MAEDAEMON/4chan-Vocaroo-URL-replacer-2026-Updated/master/screenshot.png
+// @contributionURL		https://store.steampowered.com/wishlist/id/MAEDAEFAE/
 // @contributionAmount	Steam games
 // @priority			1
 // @run-at				document-end
@@ -95,15 +96,12 @@
 		}
 	};
 
-	settings.embed.code = (settings.embed.brBefore ? '<br />' : '') 
-		+ '<object width="148px" height="44">'
-		+ '<param name="movie" value="http://vocaroo.com/player.swf?playMediaID=$1&amp;autoplay=0"></param>'
-		+ '<param name="wmode" value="transparent"></param>'
-		+ '<embed src="http://vocaroo.com/player.swf?playMediaID=$1&amp;autoplay=0" width="148" height="44" wmode="transparent" type="application/x-shockwave-flash"></embed>'
-		+ '</object>' + (settings.embed.brAfter ? '<br />' : '');
-	
-	re.plaintext	= /(?:http:\/\/|www.)+vocaroo\.com\/i\/([\w]{12})(?:<br>|)/g
-	re.linked		= /<a[^<]+?vocaroo\.com\/i\/([\w]{12})[^>]+>[^<]+?<\/a>(?:<br>|)/g
+    settings.embed.code =
+    '<button class="vocaroo-load" data-vocaroo="$1">🎤 Load Vocaroo</button>';
+
+    re.plaintext = /(?:https?:\/\/)?(?:www\.)?(?:vocaroo\.com|voca\.ro)\/([A-Za-z0-9]{10,})/gi;
+
+    re.linked = /<a[^>]+href=["'](?:https?:\/\/)?(?:www\.)?(?:vocaroo\.com|voca\.ro)\/([A-Za-z0-9]{10,})["'][^>]*>.*?<\/a>/gi;
 
 	sites.plaintextBQ	= [/(?:2chan\.net|boards\.4chan\.org|chanarchive\.org|krautchan\.net|suptg\.thisisnotatrueending\.com)/, 'tag', 'blockquote', re.plaintext];
 	sites.linkedBQ		= [/(?:4chan\.org|archive\.installgentoo\.net|boards\.420chan\.org|fuuka\.warosu\.org|operatorchan\.org|rbt\.asia|archive\.nyafuu\.org|archive\.heinessen\.com)/, 'tag', 'blockquote', re.linked];
@@ -112,19 +110,27 @@
 	sites.linkedText	= [/(?:(?:archive|nsfw)\.foolz\.us|archive\.thedarkcave\.org)/, 'class', 'text', re.linked];
 
 	for (i in sites) { if (sites.hasOwnProperty(i)) { if (sites[i][0].exec(document.domain)) { siteArray = sites[i]; break; } } }
-	function embedPost(match) {
-		var embedURL;
-		embedTotal++;
-		embedCur++;
-		embedURL = match.replace(siteArray[3], '$1');
-		if ((embedArray.indexOf(embedURL) > -1) && (settings.filter.ignoreDupes)) { return ''; }
-		if (((settings.filter.limitPer < 0) || (embedCur <= settings.filter.limitPer)) && ((settings.filter.limitTotal < 0) || (embedTotal <= settings.filter.limitTotal))) { 
-			embedArray.push(embedURL);
-			return settings.embed.code.replace('$1', embedURL);
-		}
-		return match;
-	}
-				
+	function embedPost(match, id) {
+    var embedURL = id;
+
+    embedTotal++;
+    embedCur++;
+
+    if ((embedArray.indexOf(embedURL) > -1) && (settings.filter.ignoreDupes)) {
+        return '';
+    }
+
+    if (((settings.filter.limitPer < 0) || (embedCur <= settings.filter.limitPer)) &&
+        ((settings.filter.limitTotal < 0) || (embedTotal <= settings.filter.limitTotal))) {
+
+        embedArray.push(embedURL);
+
+        return settings.embed.code.replace('$1', embedURL);
+    }
+
+    return match;
+}
+
 	function embed(n) {
 		if ((typeof k == 'number') && n.target.nodeType !== 1) { return; }
 		var l, posts, temp;
@@ -133,23 +139,44 @@
 		} else {
 			posts = document.getElementsByClassName(siteArray[2]);
 		}
-		for (l = 0; l < posts.length; l++) { 
+		for (l = 0; l < posts.length; l++) {
 			embedCur = 0;
 			embedArray.length = 0;
-			temp = posts[l].innerHTML.replace('<wbr>','').replace(siteArray[3], embedPost);
-			if (temp !== posts[l].innerHTML.replace('<wbr>','')) { posts[l].innerHTML = temp; }
+			temp = posts[l].innerHTML.replace(/<wbr>/g, '').replace(siteArray[3], embedPost);
+			if (temp !== posts[l].innerHTML.replace(/<wbr>/g, '')) { posts[l].innerHTML = temp; }
 		}
 	}
-	
-	function nodeInsertedHandler(event) {
-		var foo = new Date; // Generic JS date object
-		var unixtime_ms = foo.getTime(); // Returns milliseconds since the epoch
-		var unixtime = parseInt(unixtime_ms / 1000);
-		//timeCheck = unixtime() - 10;
-		timeCheck = unixtime - 10;
-		if ((event.target.nodeName === "DIV") && (timeCheck >= timeLastRun)) { embed(); }
-	}
-	
-	embed();
-	document.addEventListener('DOMNodeInserted', nodeInsertedHandler, true);
+
+    const observer = new MutationObserver((mutations) => {
+        for (const mutation of mutations) {
+            if (mutation.target.closest && mutation.target.closest('.vocaroo-load')) {
+                return;
+            }
+        }
+        embed();
+    });
+
+
+    observer.observe(document.body, {
+    childList: true,
+    subtree: true
+});
+
+document.addEventListener('click', function(e) {
+    if (!e.target.classList.contains('vocaroo-load')) {
+        return;
+    }
+
+    var id = e.target.dataset.vocaroo;
+
+    var iframe = document.createElement('iframe');
+    iframe.width = "300";
+    iframe.height = "60";
+    iframe.frameBorder = "0";
+    iframe.allow = "autoplay";
+    iframe.src = "https://vocaroo.com/embed/" + id + "?autoplay=0";
+
+    e.target.replaceWith(iframe);
+});
+
 }());
