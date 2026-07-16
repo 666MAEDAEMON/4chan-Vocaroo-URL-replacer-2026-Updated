@@ -19,7 +19,6 @@ You can now also click a button too load the embed rather than all the embeds ju
 
 ## Screenshot
 
-<!-- test -->
 ![screeshot](https://raw.githubusercontent.com/666MAEDAEMON/4chan-Vocaroo-URL-replacer-2026-Updated/refs/heads/main/screenshot.png)
 
 ## Known bugs
