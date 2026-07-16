@@ -3,7 +3,7 @@ by Scott Steiner <NothingFinerThanScottSteiner@gmail.com>
 
 Updated by 666MAEDAEMON (https://store.steampowered.com/wishlist/id/MAEDAEFAE/)
 
-October 2010 - September 2011.Lasted updated in 2013 by Scott, Forked in 2026 :3
+October 2010 - September 2011. Lasted updated in 2013 by Scott, Forked in 2026 :3
 
 ## Introduction
 
