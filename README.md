@@ -24,4 +24,4 @@ You can now also click a button too load the embed rather than all the embeds ju
 
 ## Known bugs
 
-????? IDK It kinda works rn, i'll update oif i need too.
+????? IDK It kinda works rn, i'll update if i need too.
