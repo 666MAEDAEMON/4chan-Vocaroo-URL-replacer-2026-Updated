@@ -22,4 +22,6 @@ Known bugs
 Screenshot
 ~~~~~~~~~~
 
-<img width="650" alt="screenshot" src="https://raw.githubusercontent.com/666MAEDAEMON/4chan-Vocaroo-URL-replacer-2026-Updated/master/screenshot.png">
+
+Inline-style: 
+![alt text](https://raw.githubusercontent.com/666MAEDAEMON/4chan-Vocaroo-URL-replacer-2026-Updated/master/screenshot.png "screenshot 1") 
