@@ -14,12 +14,11 @@ into an embedded object for easy playback.
 
 You can now also click a button too load the embed rather than all the embeds just apearing :3
 
-## Known bugs
-
-????? IDK It kinda works rn, i'll update oif i need too.
-
-
 ## Screenshot
 
 <!-- test -->
 ![screeshot](https://raw.githubusercontent.com/666MAEDAEMON/4chan-Vocaroo-URL-replacer-2026-Updated/refs/heads/main/screenshot.png)
+
+## Known bugs
+
+????? IDK It kinda works rn, i'll update oif i need too.
